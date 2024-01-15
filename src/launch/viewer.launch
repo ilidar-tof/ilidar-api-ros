@@ -1,0 +1,40 @@
+<launch>
+      <!-- rviz definition -->
+      <node name="rviz"
+            pkg="rviz"
+            type="rviz"
+            args="-d $(find ilidar)/launch/viewer.rviz"/>
+
+      <!-- ilidar node definition -->
+      <node name="ilidarNode"
+            pkg="ilidar"
+            type="ilidar-roscore"
+            output="screen"
+            respawn="false">
+            <param name="edge_rejection"  type="bool"       value="true"                              />
+            <param name="edge_threshold"  type="int"        value="300"                               />
+
+            <param name="colormap"        type="bool"       value="true"                              />
+            <param name="colormap_type"   type="int"        value="2"                                 />
+            <param name="depth_cmax"      type="int"        value="10000"                             />
+            <param name="intensity_cmax"  type="int"        value="16384"                             />
+
+            <param name="depth_min"       type="int"        value="500"                               />
+            <param name="depth_max"       type="int"        value="20000"                             />
+
+            <param name="mapping_file"    type="string"     value="$(find ilidar)/src/iTFS-110.dat"   />
+
+            <param name="frame_id"        type="string"     value="local"                             />
+            <param name="gray_name"       type="string"     value="/ilidar/gray"                      />
+            <param name="depth_name"      type="string"     value="/ilidar/depth"                     />
+            <param name="intensity_name"  type="string"     value="/ilidar/intensity"                 />
+            <param name="points_name"     type="string"     value="/ilidar/points"                    />
+      </node>
+
+      <!-- global frame definition -->
+      <node pkg="tf"
+            type="static_transform_publisher"
+            name="world_frame_broadcaster"
+            args="0 0 0 0 0 0 /world /local 1"/>
+</launch>
+
