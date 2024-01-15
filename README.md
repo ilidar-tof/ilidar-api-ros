@@ -14,16 +14,16 @@ This readme file was modified by Son(json@hybo.co) and Jeong(jungingyo@hybo.co) 
 
 This package has been developed on `ROS noetic`. But we check that this package is also built on `ROS melodic` and `ROS kinetic`.
 In this package, we use the following ROS packages:
-	```bash
-	rosconsole
-	roscpp
-	cv_bridge
-	pcl_ros
-	pcl_conversions
-	sensor_msgs
- 	image_transport
-	
-	```
+
+```bash
+rosconsole
+roscpp
+cv_bridge
+pcl_ros
+pcl_conversions
+sensor_msgs
+image_transport
+```
 
 # Build
 
@@ -39,7 +39,7 @@ Open `/src/launch/viewer.launch` and set the following value. For more detailed 
 ```html
 <param name="mapping_file"    type="string"     value="$(find ilidar)/src/iTFS-110.dat"   />
 ```
-Use value="$(find ilidar)/src/iTFS-110.dat" for iTFS-110 or "$(find ilidar)/src/iTFS-80.dat" for iTFS-80
+Use `value="$(find ilidar)/src/iTFS-110.dat"` for iTFS-110 or `"$(find ilidar)/src/iTFS-80.dat"` for iTFS-80
 
 # Launch
 
@@ -65,7 +65,7 @@ and the reconstructed 3D cloud points are also shown at the main display with 'l
 ```
 
 For gray scale mode, press Add > By topic > /gray/Image and check OK button. If you don't use 940 nm external IR light source, you will see almost nothing.
-```
+```html
 /ilidar/gray
 ```
 
@@ -91,30 +91,34 @@ Gray image from the sensor. Valid for only mode 4. This topic is published by im
 
 You can see the reception proccese in [L#262 @ilidar-ros.cpp] as following:
 ```cpp
-	...
-	/* Main loop starts here */
-	int recv_device_idx = 0;
-	while (ros::ok()) {
-		// Wait for new data
-		std::unique_lock<std::mutex> lk(lidar_cv_mutex);
-		lidar_cv.wait(lk, []{ return !lidar_q.empty(); });
-		recv_device_idx = lidar_q.front();
-		lidar_q.pop();
+...
+/* Main loop starts here */
+int recv_device_idx = 0;
+while (ros::ok()) {
+	// Wait for new data
+	std::unique_lock<std::mutex> lk(lidar_cv_mutex);
+	lidar_cv.wait(lk, []{ return !lidar_q.empty(); });
+	recv_device_idx = lidar_q.front();
+	lidar_q.pop();
 
-		// Check the main loop underrun
-		if (!lidar_q.empty()) {
-			/* The main loop is slower than data reception handler */
-			printf("[WARNING] iTFS::LiDAR The main loop seems to be slower than the LiDAR data reception handler.\n");
+	// Check the main loop underrun
+	if (!lidar_q.empty()) {
+		/* The main loop is slower than data reception handler */
+		printf("[WARNING] iTFS::LiDAR The main loop seems to be slower than the LiDAR data reception handler.\n");
 
-			// Flush the queue
-			while (!lidar_q.empty()) { recv_device_idx = lidar_q.front(); lidar_q.pop(); }
-		}
-
-		/* Main processing starts here */
-		...
+		// Flush the queue
+		while (!lidar_q.empty()) { recv_device_idx = lidar_q.front(); lidar_q.pop(); }
 	}
+
+	/* Main processing starts here */
+	...
+}
 ```
 After waiting `lidar_cv.wait()`, the raw depth data is stored at `lidar_img_data` which has the mm units. So, you can access the data in pixel as shown in the above.
 
 # License
 All example projects are licensed under the MIT License. Copyright 2022-Present HYBO Inc.
+
+[L#334 @ilidar-ros.cpp]: https://github.com/ilidar-tof/ilidar-api-ros/blob/main/src/ilidar-ros.cpp#L334
+[L#298 @ilidar-ros.cpp]: https://github.com/ilidar-tof/ilidar-api-ros/blob/main/src/ilidar-ros.cpp#L298
+[L#262 @ilidar-ros.cpp]: https://github.com/ilidar-tof/ilidar-api-ros/blob/main/src/ilidar-ros.cpp#L262
