@@ -252,8 +252,7 @@ int main(int argc, char* argv[]) {
 	iTFS::LiDAR* lidar;
 	lidar = new iTFS::LiDAR(lidar_data_handler,
 							status_packet_handler,
-							info_packet_handler,
-							iTFS::user_data_port);
+							info_packet_handler);
 
 	// Check the sensor driver is ready
 	while (lidar->Ready() != true) { std::this_thread::sleep_for(std::chrono::milliseconds(100)); }
