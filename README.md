@@ -26,6 +26,8 @@ This repository has been built and tested with real sensors in the following env
 |ROS melodic|1.14.13|[osrf/ros:melodic-desktop-full]|
 |ROS noetic|1.16.0|[osrf/ros:noetic-desktop-full]|
 
+If you want to test the sensor on docker images, follow instructions in ROS-DOCKER.txt file.
+
 ## How to Build
 After the installation ROS and its dependencies for building packages, call the catkin command
 ```
