@@ -1,17 +1,10 @@
 # iLidar ROS Package
-
 Ready to Use: This ROS package can be used to integrate our sensor into your application based on ROS environment.
 
-# Overview
-
+## Overview
 This package can read depth and intensity data from our sensor. Currently, the goal of this package is to read the data from iLidar-ToF:iTFS, and reconstruct them to the 3D point cloud with the basic camera model.
 
-# DATE
-
-This readme file was modified by Son(json@hybo.co) and Jeong(jungingyo@hybo.co) on January 15th, 2024.
-
-# Requirement
-
+## Requirement
 This package has been developed on `ROS noetic`. But we check that this package is also built on `ROS melodic` and `ROS kinetic`.
 In this package, we use the following ROS packages:
 
@@ -25,32 +18,28 @@ sensor_msgs
 image_transport
 ```
 
-# Build
-
+## Build
 After the installation ROS and its dependencies for building packages, call the catkin command
 ```
 $ catkin_make
 ```
 at the same directory with this README file. 
 
-# Set Launch File
-
+## Set Launch File
 Open `/src/launch/viewer.launch` and set the following value. For more detailed descriptions, check the software manual.
 ```html
 <param name="mapping_file"    type="string"     value="$(find ilidar)/src/iTFS-110.dat"   />
 ```
 Use `value="$(find ilidar)/src/iTFS-110.dat"` for iTFS-110 or `"$(find ilidar)/src/iTFS-80.dat"` for iTFS-80
 
-# Launch
-
+## Launch
 Launch the viewer with the command:
 ```bash
 $ source ./devel/setup.bash
 $ roslaunch ilidar viewer.launch 
 ```
 
-# Example
-
+## Example
 When the sensor is working properly, the example display is shown like:
 ![exampleImage](./ex.png)
   
@@ -69,25 +58,25 @@ For gray scale mode, press Add > By topic > /gray/Image and check OK button. If 
 /ilidar/gray
 ```
 
-# Topic details
+## Topic details
 
-## /ilidar/depth
+### /ilidar/depth
 
 The depth image from the sensor. The data type of the image is "mono16" with mm-unit, when you configure "colormap" to "false". When you set "colormap" to "true", the data type will be "rgb8". This topic is published by image_transport::ImageTransport. You can find the code block on [L#334 @ilidar-ros.cpp].
 
-## /ilidar/intensity
+### /ilidar/intensity
 
 The intensity image from the sensor. This topic has the same format with the depth image.
 
-## /ilidar/points
+### /ilidar/points
 
 The reconstructed point cloud from the sensor. The type of point is "pcl::PintXYZI". This topic is published by sensor_msgs::PointCloud2. You can find the code block on [L#298 @ilidar-ros.cpp].
 
-## /ilidar/gray
+### /ilidar/gray
 
 Gray image from the sensor. Valid for only mode 4. This topic is published by image_transport::ImageTransport.
 
-# How to access the raw depth image
+## How to access the raw depth image
 
 You can see the reception proccese in [L#262 @ilidar-ros.cpp] as following:
 ```cpp
@@ -116,7 +105,7 @@ while (ros::ok()) {
 ```
 After waiting `lidar_cv.wait()`, the raw depth data is stored at `lidar_img_data` which has the mm units. So, you can access the data in pixel as shown in the above.
 
-# License
+## License
 All example projects are licensed under the MIT License. Copyright 2022-Present HYBO Inc.
 
 [L#334 @ilidar-ros.cpp]: https://github.com/ilidar-tof/ilidar-api-ros/blob/main/src/ilidar-ros.cpp#L334
