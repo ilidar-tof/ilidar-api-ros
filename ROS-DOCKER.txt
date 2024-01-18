@@ -1,0 +1,183 @@
+[1] Install docker engine (https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository)
+1. Set up Docker's apt repository.
+$ sudo apt-get update
+$ sudo apt-get install ca-certificates curl gnupg
+$ sudo install -m 0755 -d /etc/apt/keyrings
+$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+$ sudo chmod a+r /etc/apt/keyrings/docker.gpg
+$ echo \
+    "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+    $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+    sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+$ sudo apt-get update
+
+2. Install the Docker packages. To install the latest version, run:
+$ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+3. Verify that the Docker Engine installation is successful by running the hello-world image.
+$ sudo docker run hello-world
+
+================================================================================
+
+[2] Install necessary packages to run docker images with the xserver display
+$ sudo apt-get update
+$ sudo apt-get -y install xorg xrdp xserver-xorg mesa-utils xauth gdm3
+
+================================================================================
+
+[3] Clean and run the docker image with display option and port-forwarding:
+$ sudo docker run -it \
+    --name="<CONTAINER_NAME>" \
+    --env="DISPLAY" \
+    --env="QT_X11_NO_MITSHM=1"  \
+    --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
+    -p 7256:7256/udp \
+    -p 7257:7257/udp \
+    <DOCKER_IMAGE>
+
+--------------------------------------------------------------------------------
+
+[3-1] Clone and run ros-melodic
+1. Clone and run
+$ sudo docker run -it \
+    --name="ros-melodic" \
+    --env="DISPLAY" \
+    --env="QT_X11_NO_MITSHM=1" \
+    --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
+    -p 7256:7256/udp \
+    -p 7257:7257/udp \
+    osrf/ros:melodic-desktop-full
+    
+2. Check ros version (on the docker image)
+$ roscore
+
+3. Exit the docker image
+$ exit
+
+--------------------------------------------------------------------------------
+
+[3-2] Clone and run ros-kinetic
+1. Clone and run
+$ sudo docker run -it \
+    --name="ros-kinetic" \
+    --env="DISPLAY" \
+    --env="QT_X11_NO_MITSHM=1" \
+    --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
+    -p 7256:7256/udp \
+    -p 7257:7257/udp \
+    osrf/ros:kinetic-desktop-full
+    
+2. Check ros version (on the docker image)
+$ roscore
+
+3. Exit the docker image
+$ exit
+
+--------------------------------------------------------------------------------
+
+[3-3] Clone and run ros-noetic
+1. Clone and run
+$ sudo docker run -it \
+    --name="ros-noetic" \
+    --env="DISPLAY" \
+    --env="QT_X11_NO_MITSHM=1" \
+    --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
+    -p 7256:7256/udp \
+    -p 7257:7257/udp \
+    osrf/ros:noetic-desktop-full
+    
+2. Check ros version (on the docker image)
+$ roscore
+
+3. Exit the docker image
+$ exit
+
+--------------------------------------------------------------------------------
+
+[3-4] Clone and run ros-foxy
+1. Clone and run
+$ sudo docker run -it \
+    --name="ros-foxy" \
+    --env="DISPLAY" \
+    --env="QT_X11_NO_MITSHM=1" \
+    --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
+    -p 7256:7256/udp \
+    -p 7257:7257/udp \
+    osrf/ros:foxy-desktop
+    
+2. Check ros version (on the docker image)
+$ printenv | grep -i ROS
+
+3. Exit the docker image
+$ exit
+
+--------------------------------------------------------------------------------
+
+[3-5] Clone and run ros-humble
+1. Clone and run
+$ sudo docker run -it \
+    --name="ros-humble" \
+    --env="DISPLAY" \
+    --env="QT_X11_NO_MITSHM=1" \
+    --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
+    -p 7256:7256/udp \
+    -p 7257:7257/udp \
+    osrf/ros:humble-desktop-full
+    
+2. Check ros version (on the docker image)
+$ roscore
+
+3. Exit docker image
+$ exit
+
+--------------------------------------------------------------------------------
+
+[3-6] Check the docker images:
+$ sudo docker ps -a
+
+(example)
+CONTAINER ID   IMAGE                           COMMAND                   CREATED          STATUS                      PORTS     NAMES
+XXXXXXXXXXXX   osrf/ros:melodic-desktop-full   "/ros_entrypoint.sh …"   20 minutes ago    Exited (0) 20 minutes ago              ros-melodic
+XXXXXXXXXXXX   osrf/ros:kinetic-desktop-full   "/ros_entrypoint.sh …"   14 minutes ago    Exited (0) 13 minutes ago              ros-kinetic
+XXXXXXXXXXXX   osrf/ros:noetic-desktop-full    "/ros_entrypoint.sh …"   12 minutes ago    Exited (0) 12 minutes ago              ros-noetic
+XXXXXXXXXXXX   osrf/ros:humble-desktop-full    "/ros_entrypoint.sh …"   10 minutes ago    Exited (0) 10 minutes ago              ros-humble
+XXXXXXXXXXXX   osrf/ros:foxy-desktop           "/ros_entrypoint.sh …"   5 minutes ago     Exited (0) 3 minutes ago               ros-foxy
+
+================================================================================
+
+[4] How to run the example
+1. Before run it, enable xhost x11:
+$ sudo xhost +local:root
+
+2. Copy iLiDAR ROS package to the docker image:
+$ sudo docker cp /home/<USER_NAME>/Desktop/ilidar-ros <CONTAINER_NAME>:/home/ilidar-ros
+
+3. Start the docker image:
+$ sudo docker start -i <CONTAINER_NAME>
+
+4. Go to the folder
+$ cd /home/ilidar-ros
+
+5. Build the iLiDAR ROS package
+$ catkin_make
+
+6. Configure
+$ source devel/setup.bash
+
+7. Run the viewer example
+$ roslaunch ilidar viewer.launch
+
+================================================================================
+
+[5-1] Tested ROS distiribitons
+1. ROS kinetic	1.12.17 (osrf/ros:kinetic-desktop-full)
+2. ROS melodic	1.14.13 (osrf/ros:melodic-desktop-full)
+3. ROS noetic	1.16.0 (noetic-desktop-full)
+
+--------------------------------------------------------------------------------
+
+[5-2] Testing ROS distiribitons (To be released soon)
+4. ROS foxy	? (osrf/ros:foxy-desktop)
+5. ROS humble	? (osrf/ros:humble-desktop-full)
+
+
