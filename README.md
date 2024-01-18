@@ -18,7 +18,15 @@ sensor_msgs
 image_transport
 ```
 
-## Build
+## Development Environment
+This repository has been built and tested with real sensors in the following environment:
+|ROS Distribution|Version|Docker Image|
+|:--------------:|:-----:|:-----------|
+|ROS kinetic|1.12.17|[osrf/ros:kinetic-desktop-full]|
+|ROS melodic|1.14.13|[osrf/ros:melodic-desktop-full]|
+|ROS noetic|1.16.0|[osrf/ros:noetic-desktop-full]|
+
+## How to Build
 After the installation ROS and its dependencies for building packages, call the catkin command
 ```
 $ catkin_make
@@ -108,6 +116,9 @@ After waiting `lidar_cv.wait()`, the raw depth data is stored at `lidar_img_data
 ## License
 All example projects are licensed under the MIT License. Copyright 2022-Present HYBO Inc.
 
+[osrf/ros:kinetic-desktop-full]: https://hub.docker.com/layers/osrf/ros/kinetic-desktop-full/images/sha256-b9c9d7c2db12796067e650dd2095712e6eb93ff47ab5c3d2664712d3981208b0?context=explore
+[osrf/ros:melodic-desktop-full]: https://hub.docker.com/layers/osrf/ros/melodic-desktop-full/images/sha256-bd515b87a9aaf6eda83e5061012e1c0cdb29fba5c5454ecefb1654ad6c8cfea6?context=explore
+[osrf/ros:noetic-desktop-full]: https://hub.docker.com/layers/osrf/ros/noetic-desktop-full/images/sha256-3ea4fa2e551bf72cf29481643da333220928f66c807e669583787f4f4b85f748?context=explore
 [L#334 @ilidar-ros.cpp]: https://github.com/ilidar-tof/ilidar-api-ros/blob/main/src/ilidar-ros.cpp#L334
 [L#298 @ilidar-ros.cpp]: https://github.com/ilidar-tof/ilidar-api-ros/blob/main/src/ilidar-ros.cpp#L298
 [L#262 @ilidar-ros.cpp]: https://github.com/ilidar-tof/ilidar-api-ros/blob/main/src/ilidar-ros.cpp#L262
