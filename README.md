@@ -50,7 +50,7 @@ $ roslaunch ilidar viewer.launch
 ```
 
 ## Example
-When the sensor is working properly, the example display should be look like:
+When the sensor is working properly, the example display should look like:
 ![exampleImage](./ex.png)
   
 You can see the depth and intensity images at below windows, which topics are published as 
