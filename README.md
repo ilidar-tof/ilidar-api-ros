@@ -84,11 +84,11 @@ The reconstructed point cloud from the sensor. The type of point is "pcl::PintXY
 
 ### /ilidar/gray
 
-Gray image from the sensor. Valid for only mode 4. This topic is published by image_transport::ImageTransport.
+Gray image from the sensor. Valid only in mode 4. This topic is published by image_transport::ImageTransport.
 
 ## How to access the raw depth image
 
-You can see the reception proccese in [L#262 @ilidar-ros.cpp] as following:
+You can see the reception process in [L#262 @ilidar-ros.cpp] as following:
 ```cpp
 ...
 /* Main loop starts here */
