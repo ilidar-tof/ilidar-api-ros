@@ -5,8 +5,8 @@ Ready to Use: This ROS package can be used to integrate our sensor into your app
 This package can read depth and intensity data from our sensor. Currently, the goal of this package is to read the data from iLidar-ToF:iTFS, and reconstruct them to the 3D point cloud with the basic camera model.
 
 ## Requirement
-This package has been developed on `ROS noetic`. But we check that this package can be also be built on `ROS melodic` and `ROS kinetic`.
-In this package, we use the following ROS packages:
+This package has been developed on `ROS noetic`. But we checked that this package can also be built on `ROS melodic` and `ROS kinetic`.
+This package uses the following ROS packages:
 
 ```bash
 rosconsole
@@ -40,7 +40,7 @@ Open `/src/launch/viewer.launch` and set the following value. For more detailed 
 ```html
 <param name="mapping_file"    type="string"     value="$(find ilidar)/src/iTFS-110.dat"   />
 ```
-Use `value="$(find ilidar)/src/iTFS-110.dat"` for iTFS-110 or `"$(find ilidar)/src/iTFS-80.dat"` for iTFS-80
+Use `value="$(find ilidar)/src/iTFS-110.dat"` for iTFS-110 or `"$(find ilidar)/src/iTFS-80.dat"` for iTFS-80.
 
 ## Launch
 Launch the viewer with the command:
